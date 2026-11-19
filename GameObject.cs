@@ -11,6 +11,7 @@ public class GameObject
     public int vidas;
 
     public int shootTimer=0;
+    public bool isShooting=false; 
 
     public bool isPlayer;
     public bool isEnemy;
@@ -64,13 +65,20 @@ public class GameObject
         else if(isProjectile)
         {
             if(GameObject.CanShoot())
-            this.position.X += this.speed;
-            if(this.position.X < Player.position.X-200 || this.position.X > Player.position.X+250)
+            {
+                this.position.X += this.speed;
+                this.isShooting=true; 
+            }
+            if(!isShooting)
+            {
+                this.position.X = Player.position.X+20; 
+            }
+            
+            /*if(this.position.X < Player.position.X-200 || this.position.X > Player.position.X+250)
             {
                 this.position.X = Player.position.X;
-            }
-        }
-        
+            }*/           
+        }        
     }
 
     public void Draw()
@@ -93,8 +101,6 @@ public class GameObject
                 Color.Red
             );
         }
-
-        Player.shootTimer ++;
     }
 
 
@@ -110,7 +116,7 @@ public class GameObject
     
     public static bool CanShoot()
     {
-        float tiempo = Player.shootTimer *  Raylib.GetFrameTime();
+        float tiempo = Player.shootTimer; //*  Raylib.GetFrameTime();
         Console.WriteLine(tiempo);
         if(tiempo>=50)
         { 

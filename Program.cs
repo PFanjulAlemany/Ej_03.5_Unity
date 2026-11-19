@@ -27,10 +27,10 @@ for(int i=0; i<20; i++)
 
 GameObject[] Projectiles = new GameObject[2];
 
-Projectiles[0] = scene.CreateGameObject(new Vector2 (player.position.X, player.position.Y), new Vector2(10,40), Color.Red, 200, 0);
+Projectiles[0] = scene.CreateGameObject(new Vector2 (player.position.X, player.position.Y+5), new Vector2(10,40), Color.Blue, 200, 0);
 Projectiles[0].isProjectile = true;
 
-Projectiles[1] = scene.CreateGameObject(new Vector2 (player.position.X, player.position.Y), new Vector2(10,40), Color.Red, -200, 0);
+Projectiles[1] = scene.CreateGameObject(new Vector2 (player.position.X+40, player.position.Y+5), new Vector2(10,40), Color.Blue, -200, 0);
 Projectiles[1].isProjectile = true;
 
 
