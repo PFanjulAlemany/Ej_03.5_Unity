@@ -27,10 +27,10 @@ for(int i=0; i<20; i++)
 
 GameObject[] Projectiles = new GameObject[2];
 
-Projectiles[0] = scene.CreateGameObject(new Vector2 (player.position.X, player.position.Y+5), new Vector2(10,40), Color.Blue, 200, 0);
+Projectiles[0] = scene.CreateGameObject(new Vector2 (player.position.X, player.position.Y+5), new Vector2(10,70), Color.Green, 400, 0);
 Projectiles[0].isProjectile = true;
 
-Projectiles[1] = scene.CreateGameObject(new Vector2 (player.position.X+40, player.position.Y+5), new Vector2(10,40), Color.Blue, -200, 0);
+Projectiles[1] = scene.CreateGameObject(new Vector2 (player.position.X+40, player.position.Y+5), new Vector2(10,70), Color.Green, -400, 0);
 Projectiles[1].isProjectile = true;
 
 
@@ -40,7 +40,7 @@ while(!Raylib.WindowShouldClose())
 
     camera.Target=new Vector2(player.position.X, player.position.Y);
  
-    //colision
+    //colision enemigo-personaje
     for(int i=0; i<20; i++)
     {
         if( enemy[i].position.X + enemy[i].size.X > player.position.X &&
@@ -51,6 +51,21 @@ while(!Raylib.WindowShouldClose())
         {
             enemy[i].Dead();
             player.vidas--;
+        }
+    }
+    //colision enemigo-proyectil
+    for(int i=0; i<20; i++)
+    {
+        for(int j=0; j<2; j++)
+        {
+            if( enemy[i].position.X + enemy[i].size.X > Projectiles[j].position.X &&
+                enemy[i].position.X < Projectiles[j].position.X + Projectiles[j].size.X &&
+                enemy[i].position.Y + enemy[i].size.Y > Projectiles[j].position.Y &&
+                enemy[i].position.Y < Projectiles[j].position.Y + Projectiles[j].size.Y
+            )
+            {
+                enemy[i].Dead();
+            }
         }
     }
 
@@ -71,32 +86,12 @@ while(!Raylib.WindowShouldClose())
     Raylib.EndDrawing();
 }
 
+//posibles mejoras: 
+// Spawn de los enemigos no solo arriba
+// añadir sprites
 
 
-
-
-
-//Game loop apuntes:
 /*
-
-APIs graficas son software que viene en las graficas y simplifica el proceso de rasteriacion 
-DirectX 11
-DirectX 12
-OpenGl
-Vulkan
-Metal
-
-
-Raylib es una biblioteca que se añade como package a un proyecto
-
-
-funciones estaticas: funciones que se llaman sobre una clase y no sobre una instancia
-de ella. 
-
-
-
-bucle sencillo while(){}
-
 
 struct son clases que funcionan por copia en vez de por puntero. 
 Los tipos matematicos normalmente son sctructs. 

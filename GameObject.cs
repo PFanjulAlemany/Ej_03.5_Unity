@@ -10,8 +10,9 @@ public class GameObject
     public int speed;
     public int vidas;
 
-    public int shootTimer=0;
+    public float shootTimer=0;
     public bool isShooting=false; 
+    private float lastPositionX;
 
     public bool isPlayer;
     public bool isEnemy;
@@ -64,25 +65,34 @@ public class GameObject
         }
         else if(isProjectile)
         {
-            if(GameObject.CanShoot())
-            {
-                this.position.X += this.speed;
-                this.isShooting=true; 
+            if(isShooting)
+            { 
+                Console.WriteLine(lastPositionX);
+                Console.WriteLine(this.position.X);
+                this.position.X += this.speed*Raylib.GetFrameTime();
+                if(this.position.X < lastPositionX-90 || this.position.X > lastPositionX+90)
+                {
+                    isShooting=false; 
+                } 
+                shootTimer=0;
             }
-            if(!isShooting)
+            else
             {
                 this.position.X = Player.position.X+20; 
-            }
-            
-            /*if(this.position.X < Player.position.X-200 || this.position.X > Player.position.X+250)
-            {
-                this.position.X = Player.position.X;
-            }*/           
+                this.position.Y = Player.position.Y+5;
+                shootTimer += Raylib.GetFrameTime();
+                if(shootTimer>2f)
+                {
+                    isShooting=true;
+                    lastPositionX = this.position.X;
+                }
+            }      
         }        
     }
 
     public void Draw()
     {
+        if(!isProjectile || isProjectile && isShooting)
         Raylib.DrawRectangle(
             (int) this.position.X,
             (int) this.position.Y,
@@ -108,23 +118,8 @@ public class GameObject
     {
         if(!isPlayer)
         {
-            this.position.X = Raylib.GetRandomValue(-800, 800);
+            this.position.X = Raylib.GetRandomValue((int)Player.position.X-800, (int)Player.position.X+800);
             this.position.Y -= 800; 
         }
     }
-
-    
-    public static bool CanShoot()
-    {
-        float tiempo = Player.shootTimer; //*  Raylib.GetFrameTime();
-        Console.WriteLine(tiempo);
-        if(tiempo>=50)
-        { 
-            Player.shootTimer = 0;
-            return true;
-        }
-        else return false;//creo que esto es redundante ns 
-    } 
-
-
 }
