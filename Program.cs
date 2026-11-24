@@ -37,8 +37,6 @@ Projectiles[1].isProjectile = true;
 while(!Raylib.WindowShouldClose())
 {
     scene.Update();
-
-    camera.Target=new Vector2(player.position.X, player.position.Y);
  
     //colision enemigo-personaje
     for(int i=0; i<20; i++)
@@ -68,6 +66,8 @@ while(!Raylib.WindowShouldClose())
             }
         }
     }
+
+    camera.Target=new Vector2(player.position.X, player.position.Y);
 
     Raylib.ClearBackground(Color.Black);
     Raylib.BeginDrawing();
